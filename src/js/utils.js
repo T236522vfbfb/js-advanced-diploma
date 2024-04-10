@@ -23,18 +23,38 @@
  * ```
  * */
 export function calcTileType(index, boardSize) {
-  // TODO: ваш код будет тут
-  return 'center';
-}
-
-export function calcHealthLevel(health) {
-  if (health < 15) {
-    return 'critical';
+    const firstRow = index < boardSize;
+    const lastRow = index >= boardSize * (boardSize - 1);
+    const leftColumn = index % boardSize === 0;
+    const rightColumn = index % boardSize === boardSize - 1;
+  
+    const positions = {
+      'top-left': firstRow && leftColumn,
+      'top-right': firstRow && rightColumn,
+      'bottom-left': lastRow && leftColumn,
+      'bottom-right': lastRow && rightColumn,
+      top: firstRow && !(leftColumn || rightColumn),
+      bottom: lastRow && !(leftColumn || rightColumn),
+      left: leftColumn && !(firstRow || lastRow),
+      right: rightColumn && !(firstRow || lastRow),
+    };
+    for (const position in positions) {
+      if (positions[position]) {
+        return position;
+      }
+    }
+  
+    return 'center';
   }
-
-  if (health < 50) {
-    return 'normal';
+  
+  export function calcHealthLevel(health) {
+    if (health < 15) {
+      return 'critical';
+    }
+  
+    if (health < 50) {
+      return 'normal';
+    }
+  
+    return 'high';
   }
-
-  return 'high';
-}
