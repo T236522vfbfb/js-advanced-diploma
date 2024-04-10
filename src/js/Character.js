@@ -21,7 +21,7 @@ export default class Character {
     this.health = 50;
     this.type = type;
     if (new.target.name === 'Character') {
-      throw new Error('Нельзя создать данный класс');
+    throw new Error('Нельзя создать данный класс');
     }
   }
 }
